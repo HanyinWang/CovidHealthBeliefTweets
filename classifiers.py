@@ -15,7 +15,7 @@ from sklearn.pipeline import Pipeline
 construct = sys.argv[1] # HBM_related / constructs /
 # sys.argv[2]: cleanedproportion1 or cleanedproportion2 or cleanedproportion3 (only apply when construct = HBM_related)
 
-all_annotation = pd.read_csv('/home/hddraid/Hanyin/covid19_twitter/data/annotation_final.csv', index_col = 0)
+all_annotation = pd.read_csv('./data/annotation_final.csv', index_col = 0)
 print('annotation dataset loaded')
 
 # Train test split
@@ -47,6 +47,7 @@ elif construct == 'constructs':
 
 print('Train test split for annotation dataset finished!')
 
+
 if construct == 'HBM_related':
     # build pipeline
     HMB_clf = Pipeline([
@@ -64,8 +65,8 @@ if construct == 'HBM_related':
     predictions = HMB_clf.predict(X_test)
     print('Accuracy on annotation set: ', metrics.accuracy_score(y_test, predictions))
 
-    # read in tweets file
-    chunks = pd.read_csv('/share/fsmresfiles/covid19_twitter/extract2/tweets_full_df_en_%s.csv'%(sys.argv[2])
+    # read in tweets file with all included English tweets (the file should be hydrated using the Twitter API based on the provided Tweet IDs in 10.5281/zenodo.3902855)
+    chunks = pd.read_csv('./data/tweets_full_df_en_%s.csv'%(sys.argv[2])
                          , index_col = 0, chunksize = 100000, lineterminator='\n')
     tweets_lst = []
     for chunk in chunks:
@@ -79,11 +80,11 @@ if construct == 'HBM_related':
     tweets_final['predicted'] = HMB_clf.predict(tweets_final['read_text_clean2'])
     tweets_new = tweets_final[['predicted', 'created_at', 'read_user_id', 'read_tweet_id',
                                'user_location', 'coordinates', 'place', 'read_text_clean2']] ###
-    tweets_new.to_csv('/share/fsmresfiles/covid19_twitter/extract2/HBM_related.csv', mode = 'a', header = False)
+    tweets_new.to_csv('./data/HBM_related.csv', mode = 'a', header = False)
 
 elif construct == 'constructs':
     # read in tweets file
-    chunks = pd.read_csv('/share/fsmresfiles/covid19_twitter/extract2/HBM_related.csv',
+    chunks = pd.read_csv('./data/HBM_related.csv',
                          chunksize = 100000, index_col = 0,  lineterminator='\n')
     tweets_lst = []
     for chunk in chunks:
@@ -178,4 +179,4 @@ elif construct == 'constructs':
     # make prediction
     tweets_HBM['Perceived_barriers'] = barriers_clf.predict(tweets_HBM['read_text_clean2'])
 
-    tweets_HBM.to_csv('/share/fsmresfiles/covid19_twitter/extract2/constructs.csv')
+    tweets_HBM.to_csv('./data/constructs.csv')
