@@ -4,4 +4,4 @@ The dataset [Annotation dataset.csv](https://github.com/HanyinWang/CovidHealthBe
 
 This [code snip](https://github.com/HanyinWang/CovidHealthBeliefTweets/blob/main/classifiers.py) provides the classifiers that used to construct the HBM. The best classifiers with the best parameters are directly used in the classifiers. An example notebook for searching the best architecture and the most suitable parameters can be found [here](https://github.com/HanyinWang/CovidHealthBeliefTweets/blob/main/CV.ipynb).
 
-Our paper _Using tweets to understand how COVID-19 related health beliefs are affected in the age of social media_ is currently under reivew. More information will be added after publication.
+Our paper [_Using Tweets to Understand How COVID-19–Related Health Beliefs Are Affected in the Age of Social Media: Twitter Data Analysis Study_](http://dx.doi.org/10.2196/26302) is published in JMIR. Please consider citing our work when you find the repository useful.
